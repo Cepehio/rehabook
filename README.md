@@ -2,9 +2,8 @@
 
 Kineziterapijos klinikos registracijos ir vizitų valdymo studijų projektas. Pacientas rezervuoja vizitą ir mato savo istoriją, specialistas tvarko jam priskirtus vizitus, administratorius prižiūri katalogus ir suvestines.
 
-Patobulintoje versijoje rezervacija įrašoma į DB, tikrinamas visas paslaugos intervalas ir paciento užimtumas. Atšauktas laikas vėl tampa laisvas. Kainą, trukmę ir pradinę būseną nustato serveris. Slaptažodžio atkūrimas naudoja vienkartinį raktą. Pridėti regresiniai testai, migracija ir dokumentacija.
 
-2026-10 versija: **darbo krūvio paskirstymas** – registruojantis galima rinktis „bet kuris laisvas specialistas“, tada serveris toje pačioje transakcijoje priskiria pasirinktu laiku laisvą ir mažiausiai apkrautą specialistą; **priminimai prieš vizitą** el. paštu per `node-cron` planuoklį; **saugumo priemonių atitiktis** OWASP ASVS 4.0 ir Top 10 aprašyta `docs/SAUGUMAS.md`; **paslaugų katalogo valdymas** administratoriaus zonoje (kainos, trukmės, aprašai, aktyvumas; esami vizitai saugo savo kainą); **pritaikymas mobiliesiems įrenginiams** be stalinio vaizdo pakeitimų; kodo skaidymas (pradinis JS paketas ~75 kB vietoje 983 kB); atnaujintos priklausomybės (Vite 7, React Router 7, nodemailer 10, ESLint 10, Recharts 3) ir `package-lock.json` failai be žinomų pažeidžiamumų ir be nebepalaikomų paketų įspėjimų.
+**darbo krūvio paskirstymas** – registruojantis galima rinktis „bet kuris laisvas specialistas“, tada serveris toje pačioje transakcijoje priskiria pasirinktu laiku laisvą ir mažiausiai apkrautą specialistą; **priminimai prieš vizitą** el. paštu per `node-cron` planuoklį; **saugumo priemonių atitiktis** OWASP ASVS 4.0 ir Top 10 aprašyta `docs/SAUGUMAS.md`; **paslaugų katalogo valdymas** administratoriaus zonoje (kainos, trukmės, aprašai, aktyvumas; esami vizitai saugo savo kainą); **pritaikymas mobiliesiems įrenginiams** be stalinio vaizdo pakeitimų; kodo skaidymas (pradinis JS paketas ~75 kB vietoje 983 kB); atnaujintos priklausomybės (Vite 7, React Router 7, nodemailer 10, ESLint 10, Recharts 3) ir `package-lock.json` failai be žinomų pažeidžiamumų ir be nebepalaikomų paketų įspėjimų.
 
 ## Priemonės ir katalogai
 
