@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+server/node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+server/.env
+server/.env.*
+!server/.env.example
+
+# Logs
+*.log
+npm-debug.log*
+server/logs/
+server/outbox/
+server/config-tests/.tmp-env-*/
+outbox/
+test-results/
+!docs/test-results/
+!docs/test-results/*.txt
+playwright-report/
+coverage/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.vs/
+.idea
+.DS_Store
+*.local

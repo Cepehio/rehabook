@@ -1,0 +1,108 @@
+RehaBook patikra 2026-10-21 | Node v22.22.0 | npm 10.9.4 ir npm 11.x | Vite 7.3.7 (esbuild 0.28, rollup 4) | ESLint 10.13.0 | Recharts 3.10.1
+
+== npm ci švariame kataloge (šaknis, npm 10.9.4)
+added 319 packages, and audited 320 packages
+found 0 vulnerabilities
+(be „deprecated“ įspėjimų)
+
+== npm ci švariame kataloge (server, npm 10.9.4)
+added 254 packages, and audited 255 packages
+found 0 vulnerabilities
+(be „deprecated“ įspėjimų)
+
+== npm test (šaknis): node --test tests/*.test.js
+ok 1 - administratoriaus sąrašas išsaugo ir įrašus po pirmojo šimto
+ok 2 - ankstesnės sesijos pavėluoti duomenys nerodomi naujai paskyrai
+ok 3 - kalendorinės datos: keliamieji metai ir neegzistuojančios datos
+ok 4 - laiko normalizavimas neleidžia apeiti konflikto su 9:00 ir 09:00
+ok 5 - Lietuvos data ties UTC dienos riba
+ok 6 - praeitis ir darbo dienos ribos tikrinamos pagal visą paslaugos trukmę
+ok 7 - intervalai persidengia, tačiau gretimi vizitai leidžiami
+ok 8 - laisvi laikai neapima užimtos trukmės ir grąžina atšauktą laiką
+ok 9 - savaitės ribos skaičiuojamos nuo pirmadienio iki sekmadienio
+ok 10 - darbo krūvis skaičiuojamas minutėmis be atšauktų vizitų
+ok 11 - automatinis priskyrimas parenka laisvą ir mažiausiai apkrautą specialistą
+ok 12 - laisvų laikų sąjunga apima laiką, kai laisvas bent vienas specialistas
+ok 13 - galutinės būsenos negrąžinamos į aktyvią rezervaciją
+ok 14 - ilgo vizito PDF kuriamas su įterptu Unicode šriftu ir keliais puslapiais
+# tests 14
+# pass 14
+# fail 0
+
+== vitest run (src/**/*.test.jsx)
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+
+== npm run lint (ESLint 10)
+ESLint: 0 klaidų, 0 įspėjimų
+
+== npm audit (šaknis)
+found 0 vulnerabilities
+
+== npm audit (server)
+found 0 vulnerabilities
+
+== server: npm run test:config
+# tests 4
+# pass 4
+# fail 0
+
+== npm run build (Vite 7)
+vite v7.3.7 building client environment for production...
+transforming...
+node_modules/zod/v4/core/regexes.js (74:0): A comment
+"/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+ * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+ * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+node_modules/zod/v4/core/util.js (400:0): A comment
+"// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 3702 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.77 kB │ gzip:   0.43 kB
+dist/assets/DejaVuSans-uCh15Ap1.ttf          759.72 kB
+dist/assets/index-C_d0OtF9.css                 5.61 kB │ gzip:   1.89 kB
+dist/assets/vendor-calendar-D6_OiQf5.css      14.36 kB │ gzip:   2.72 kB
+dist/assets/plus-Cs8yKOB4.js                   0.15 kB │ gzip:   0.15 kB
+dist/assets/save-BF1wA79q.js                   0.51 kB │ gzip:   0.29 kB
+dist/assets/StatCard-C4EzkkLl.js               0.63 kB │ gzip:   0.38 kB
+dist/assets/constants-CtMacz5v.js              1.07 kB │ gzip:   0.71 kB
+dist/assets/PatientDashboard-B4aknLX1.js      10.02 kB │ gzip:   3.77 kB
+dist/assets/SpecialistDashboard-HqTyRdCI.js   22.61 kB │ gzip:   6.60 kB
+dist/assets/AdminPanel-6Pl_m1WX.js            27.26 kB │ gzip:   6.42 kB
+dist/assets/index-DGeRnMT7.js                 72.87 kB │ gzip:  20.62 kB
+dist/assets/vendor-forms-BDuMczVU.js         122.22 kB │ gzip:  37.41 kB
+dist/assets/vendor-react-DAEq7_k7.js         188.77 kB │ gzip:  62.34 kB
+dist/assets/vendor-calendar-CDt_jHOx.js      204.76 kB │ gzip:  62.85 kB
+dist/assets/index.es-B34f8cDm.js             343.23 kB │ gzip:  93.02 kB
+dist/assets/vendor-charts-CeP_TNO1.js        398.41 kB │ gzip: 114.72 kB
+dist/assets/vendor-pdf-Bg-wQMX8.js           432.39 kB │ gzip: 144.54 kB
+✓ built in 10.14s
+
+== index.html modulepreload (viešas puslapis įkelia tik bazinius paketus)
+modulepreload" crossorigin href="/assets/vendor-react-DAEq7_k7.js"
+modulepreload" crossorigin href="/assets/vendor-forms-BDuMczVU.js"
+
+== API testai (server, PostgreSQL 16.15, atskira rehabook_test bazė, 4 migracijos)
+ Test Files  10 passed (10)
+      Tests  57 passed (57)
+
+== OpenAPI (swagger-jsdoc su glob 13)
+24 keliai, 9 schemos; dokumentas sutampa su sugeneruotu naudojant glob 11
+
+== Dienos laikų lentelė (Chromium 141, 1366×800 ir 390×844, realus API)
+Pacientas rezervavo 12:00; kitam pacientui ir neprisijungusiam lankytojui 11:30–12:30 rodomi pritemdyti ir nepasirenkami (Užimta); pačiam pacientui pas kitą specialistą tie laikai pažymėti brūkšniuotu rėmeliu (Persidengia su jūsų vizitu); paspaudus pritemdytą laiką ir „Toliau“ – „Pasirinkite patikrintą laisvą laiką.“
+
+== Surinkimo palyginimas Vite 7 ir Vite 8 (Chromium 141, 37 puslapių, 1366×800 ir 390×844)
+Visų puslapių ekrano nuotraukos sutampa pikselių tikslumu; skiriasi tik animuojamos diagramos ir kalendoriaus laiko linija
+
+== Surinkta sąsaja per API serverį (CLIENT_DIST, Chromium 141)
+Pradžios, prisijungimo, registracijos (3 žingsnis) ir paciento puslapiai su helmet CSP antraštėmis – be konsolės klaidų; GET / 200 text/html, GET /paskyra 200, /api 404 JSON
+
+== Vite 7 kūrimo serveris (npm run dev, Chromium 141)
+Pradžios, prisijungimo, registracijos ir paciento puslapiai – be konsolės klaidų
+
+== Diagramos po Recharts 3 atnaujinimo (Chromium 141, 1366×800 ir 390×844)
+Specialisto apžvalga ir analitika, administratoriaus suvestinė, užvedimo langeliai: vaizdas sutampa su Recharts 2 (pikselių palyginimas)

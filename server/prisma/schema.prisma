@@ -1,0 +1,96 @@
+// RehaBook duomenų bazės fizinis modelis (PostgreSQL + Prisma)
+// 4 esybės: Patient, Specialist, Service, Visit.
+// Statusas laikomas String (ne enum), kad išliktų lietuviški pavadinimai,
+// kuriuos frontend lygina tiesiogiai.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id             Int       @id @default(autoincrement())
+  name           String
+  surname        String
+  email          String    @unique
+  passwordHash   String
+  tokenVersion   Int       @default(0)
+  resetTokenHash String?   @unique
+  resetExpiresAt DateTime?
+  phone          String?
+  birthDate      String?
+  registeredDate String    @default(dbgenerated("to_char(now(),'YYYY-MM-DD')"))
+  failedLogins   Int       @default(0) // paskyros užrakinimui
+  lockedUntil    DateTime? // paskyros užrakinimui
+  deletedAt      DateTime? // soft delete
+  visits         Visit[]
+  createdAt      DateTime  @default(now())
+}
+
+model Specialist {
+  id             Int       @id @default(autoincrement())
+  name           String
+  title          String?
+  experience     Int       @default(0)
+  rating         Float     @default(0)
+  reviews        Int       @default(0)
+  specialties    String[] // Postgres masyvas
+  photo          String? // inicialai, pvz. "RK"
+  available      Boolean   @default(true)
+  bio            String?
+  license        String    @unique
+  email          String    @unique
+  phone          String?
+  passwordHash   String
+  tokenVersion   Int       @default(0)
+  resetTokenHash String?   @unique
+  resetExpiresAt DateTime?
+  failedLogins   Int       @default(0) // paskyros užrakinimui
+  lockedUntil    DateTime? // paskyros užrakinimui
+  deletedAt      DateTime? // soft delete
+  visits         Visit[]
+  createdAt      DateTime  @default(now())
+}
+
+model Service {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  category    String
+  description String?
+  price       Int
+  duration    Int // minutės
+  active      Boolean @default(true) // neaktyvi paslauga neteikiama naujoms rezervacijoms
+  visits      Visit[]
+}
+
+model Visit {
+  id              Int        @id @default(autoincrement())
+  patient         Patient    @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId       Int
+  specialist      Specialist @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  specialistId    Int
+  service         Service    @relation(fields: [serviceId], references: [id])
+  serviceId       Int
+  date            String // "2026-04-07"
+  time            String // "8:00"
+  status          String     @default("laukiamas") // laukiamas|patvirtintas|įvykęs|atšauktas
+  diagnosis       String?
+  procedures      String?
+  recommendations String?
+  price           Int
+  duration        Int        @default(60)
+  nextVisit       String?
+  cancelReason    String?
+  reminderSentAt  DateTime? // kada išsiųstas priminimas prieš vizitą (NULL – dar nesiųstas)
+  createdAt       DateTime   @default(now())
+
+  // Dalinis unikalus indeksas tik neatšauktiems vizitams aprašytas SQL migracijoje.
+  // Visos trukmės persidengimą tikrina Serializable transakcija.
+  @@index([specialistId, date])
+  @@index([patientId, date])
+  @@index([status, date])
+}

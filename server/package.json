@@ -1,0 +1,48 @@
+{
+  "name": "rehabook-server",
+  "version": "1.0.0",
+  "description": "RehaBook backend - Express + PostgreSQL + Prisma",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "seed": "node prisma/seed.js",
+    "test": "vitest run",
+    "test:config": "node --test config-tests/*.test.js",
+    "reminders": "node scripts/send-reminders.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "express-validator": "^7.3.2",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.11.0",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^10.1.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3",
+    "supertest": "^7.2.2",
+    "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.2",
+    "glob": "^14.0.4",
+    "minimatch": "^11.0.5"
+  },
+  "allowScripts": {
+    "bcrypt": true,
+    "prisma": true,
+    "@prisma/client": true,
+    "@prisma/engines": true,
+    "@scarf/scarf": false
+  }
+}

@@ -1,0 +1,64 @@
+# RehaBook — PostgreSQL + backend.
+#
+# Paleidimas:  docker compose up --build
+#   - db:  PostgreSQL su nuolatiniu volume ir healthcheck'u;
+#   - api: backend, kuris startuoja tik DB tapus „healthy“, pritaiko migracijas
+#          (prisma migrate deploy) ir pakelia serverį http://localhost:4000.
+#
+# Frontend lieka paleidžiamas atskirai per `npm run dev` (http://localhost:5173).
+# Slaptažodį/JWT raktą galima nustatyti per šalia esantį `.env` failą arba aplinką;
+# žemiau pateikti numatytieji vystymui (gamyboje BŪTINA pakeisti).
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: rehabook
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - rehabook_db:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d rehabook']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: 'postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/rehabook?schema=public'
+      JWT_SECRET: ${JWT_SECRET:?Nustatykite JWT_SECRET root .env faile}
+      JWT_EXPIRES_IN: '1h'
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@rehabook.lt}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Nustatykite ADMIN_PASSWORD root .env faile}
+      PORT: '4000'
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:-http://localhost:5173}
+      MAIL_MODE: ${MAIL_MODE:-file}
+      MAIL_OUTBOX_DIR: /app/server/outbox
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: 'RehaBook <noreply@rehabook.lt>'
+      REMINDERS_ENABLED: ${REMINDERS_ENABLED:-true}
+      REMINDER_CRON: ${REMINDER_CRON:-0 9 * * *}
+      REMINDER_TZ: ${REMINDER_TZ:-Europe/Vilnius}
+      NODE_ENV: production
+    ports:
+      - '127.0.0.1:4000:4000'
+    volumes:
+      - rehabook_outbox:/app/server/outbox
+
+volumes:
+  rehabook_db:
+  rehabook_outbox:

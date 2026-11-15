@@ -1,0 +1,25 @@
+RehaBook pakartotinė patikra 2026-11-07 | Node v22.23.4 | npm 10.9.9 | PostgreSQL 16.15 | Vite 7.3.7 | ESLint 10.13.0
+
+Priežastis: nauji npm audit pranešimai (minimatch GHSA-g3hv-75wg-m249, glob GHSA-3g3m-2fjr-6pw4, body-parser GHSA-27r3-jxmh-p828).
+Sprendimas: overrides minimatch ^11.0.5 (šaknis ir server), glob ^14.0.4 (server); express 5.3.0 su body-parser 2.4.0 (npm audit fix, be laužančių pakeitimų).
+
+== npm ci švariame kataloge
+šaknis: added 321 packages, found 0 vulnerabilities (be „deprecated“ įspėjimų)
+server: added 257 packages, found 0 vulnerabilities (be „deprecated“ įspėjimų)
+
+== npm run lint (ESLint 10)        0 klaidų, 0 įspėjimų
+== npm test (šaknis)               node:test 14/14, vitest 6/6
+== server: npm run test:config     4/4
+== server: npm test (Supertest, PostgreSQL 16, rehabook_test, connection_limit=5)
+   Test Files 10 passed (10), Tests 57 passed (57)
+   Pastaba: patikros aplinkoje Prisma variklio parsisiuntimas buvo neprieinamas, todėl testai vykdyti
+   su Prisma „client“ varikliu ir @prisma/adapter-pg (tik patikros aplinkoje; projekto konfigūracija nekeista).
+== npm run build (Vite 7)          sėkmingas; index 72,84 kB, vendor-react 188,77 kB, vendor-forms 122,22 kB,
+                                   vendor-calendar 204,76 kB, vendor-charts 398,41 kB, vendor-pdf 432,39 kB
+== API dūminė patikra (surinkta sąsaja per API serverį, prievadas 4555)
+   /api/health 200; /api/docs.json 24 keliai, 31 operacija; / ir /paslaugos 200 text/html; /api/nera 404 JSON;
+   CSP, HSTS, X-Frame-Options antraštės nustatytos; paciento prisijungimas 200; rezervacija 201; ta pati vieta 409;
+   automatinis priskyrimas 201 (autoAssigned: true); atšaukimas 200; kainos klastojimas 400; admin sąrašas be token 401;
+   npm run reminders -- 2026-11-13: pirmas paleidimas išsiuntė 2, antras 0 (idempotentiška).
+== Chromium 1243 (headless)        pradžia, prisijungimas, registracijos vedlio 3 žingsnis: laikų lentelė su 6 pritemdytais
+                                   laikais ir užrašu „Pritemdyti laikai užimti, brūkšniuoti – užrezervuoti jūsų laikai.“

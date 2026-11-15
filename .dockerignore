@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/logs
+**/outbox
+.git
+docs
+tests
+server/tests

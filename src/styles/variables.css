@@ -1,0 +1,59 @@
+/*
+ * RehaBook — CSS kintamieji (Design Tokens)
+ *
+ * Centralizuota spalvų, šriftų, dydžių ir šešėlių sistema.
+ * Importuojama per globals.css ir prieinama visuose komponentuose.
+ */
+
+:root {
+  /* ─── Pagrindinės spalvos ─── */
+  --color-sage:        #7A8B6F;
+  --color-sage-dk:     #5C6B52;
+  --color-sage-lt:     #A8B89E;
+  --color-sage-pl:     #E8EDE4;
+
+  /* ─── Fono spalvos ─── */
+  --color-cream:       #FAF7F2;
+  --color-cream-dk:    #F0EBE3;
+  --color-warm-wh:     #FEFCF9;
+
+  /* ─── Teksto spalvos ─── */
+  --color-char:        #2C2C2C;
+  --color-char-lt:     #4A4A4A;
+  --color-slate:       #6B7280;
+
+  /* ─── Akcentinės spalvos ─── */
+  --color-coral:       #D4856A;
+  --color-coral-lt:    #E8A990;
+  --color-gold:        #C4A265;
+
+  /* ─── Būsenų spalvos ─── */
+  --color-err:         #C75050;
+  --color-ok:          #5C8A5C;
+
+  /* ─── Kraštinės ir kortelės ─── */
+  --color-border:      #E5E0D8;
+  --color-card:        rgba(255, 255, 255, 0.9);
+
+  /* ─── Admin tema ─── */
+  --color-admin-bg:    #1a1f2e;
+  --color-admin-card:  #232839;
+  --color-admin-border:#2d3348;
+
+  /* ─── Šriftai ─── */
+  --font-display:      'Playfair Display', serif;
+  --font-body:         'Source Sans 3', sans-serif;
+
+  /* ─── Užapvalinimai ─── */
+  --radius-sm:         8px;
+  --radius-md:         12px;
+  --radius-lg:         20px;
+  --radius-xl:         28px;
+  --radius-full:       9999px;
+
+  /* ─── Šešėliai ─── */
+  --shadow-sm:         0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md:         0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg:         0 8px 32px rgba(0, 0, 0, 0.10);
+  --shadow-xl:         0 16px 48px rgba(0, 0, 0, 0.12);
+}

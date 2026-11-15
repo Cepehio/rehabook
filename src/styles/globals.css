@@ -1,0 +1,377 @@
+/*
+ * RehaBook — Globalūs stiliai
+ *
+ * Importuoja CSS kintamuosius ir nustato bazinius stilius,
+ * animacijas, slinkties juostą ir pasirinkimo spalvas.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+@import './variables.css';
+
+/* ─── Baziniai stiliai ─── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-cream);
+  color: var(--color-char);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Slinkties juosta ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage-lt);
+  border-radius: 3px;
+}
+
+/* ─── Pasirinkimo spalva ─── */
+::selection {
+  background: var(--color-sage-pl);
+  color: var(--color-sage-dk);
+}
+
+/* ─── Fokusavimo stiliai (prieinamumas) ─── */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+}
+
+/* ─── Animacijos ─── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes slideR {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Užklausų būsenos: skeleton mirgėjimas ir toast atsiradimas */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Pritaikymas mobiliesiems įrenginiams (N09)
+
+   Komponentų išvaizda (spalvos, šriftai, užapvalinimai) aprašyta inline
+   stiliais per theme.js ir čia NEKEIČIAMA. Šis sluoksnis keičia tik
+   IŠDĖSTYMĄ siauruose ekranuose: stulpelių skaičių, šoninę juostą, meniu,
+   lentelių slinkimą ir tarpus. Kadangi inline stiliai turi aukštesnį
+   prioritetą, taisyklėms reikalingas !important. Staliniame vaizde
+   (plotis > 768px) nė viena iš šių taisyklių neveikia.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* „Hamburger“ mygtukas staliniame vaizde nerodomas */
+.rb-nav-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* iOS Safari nepriartina puslapio fokusuojant lauką, jei šriftas ≥ 16px */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* ─── Viršutinė navigacija: nuorodos sudedamos į išskleidžiamą meniu ─── */
+  .rb-nav-toggle {
+    display: inline-flex !important;
+  }
+  .rb-nav-links {
+    display: none !important;
+  }
+  .rb-nav-links.is-open {
+    display: flex !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 12px 16px 16px;
+    background: rgba(250, 247, 242, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.2s ease;
+  }
+  .rb-nav-links.is-open > button {
+    width: 100%;
+    justify-content: center;
+    padding: 11px 14px !important;
+    font-size: 15px !important;
+  }
+  .rb-nav-divider {
+    display: none !important;
+  }
+
+  /* ─── Pradinis puslapis ─── */
+  .rb-hero {
+    min-height: auto !important;
+    padding-top: 72px !important;
+  }
+  .rb-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    padding: 32px 16px 48px !important;
+  }
+  .rb-hero-stats {
+    flex-wrap: wrap;
+    gap: 16px 24px !important;
+  }
+  .rb-hero-art {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  /* Siauroje kortelėje ženklelis centruojamas be „float“ animacijos, kad nebūtų nukirptas */
+  .rb-hero-badge {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    animation: none !important;
+  }
+  .rb-section {
+    padding: 56px 16px !important;
+  }
+  .rb-cta {
+    padding: 40px 20px !important;
+  }
+  .rb-footer {
+    padding: 40px 16px 24px !important;
+  }
+  .rb-page-section {
+    padding: 24px 16px 56px !important;
+  }
+
+  /* ─── Bendri tinkleliai ─── */
+  .rb-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .rb-week-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  /* ─── Rolių zonos: šoninė juosta virsta viršutine juosta su slenkamu meniu ─── */
+  .rb-dash {
+    flex-direction: column !important;
+  }
+  .rb-dash-aside {
+    width: 100% !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px 0 0 !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .rb-dash-aside--admin {
+    border-bottom-color: var(--color-admin-border);
+  }
+  .rb-dash-brand {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0 !important;
+    padding: 0 16px !important;
+  }
+  .rb-dash-brand > div {
+    margin-bottom: 0 !important;
+  }
+  .rb-dash-logout {
+    order: 2;
+    padding: 8px 16px !important;
+  }
+  .rb-dash-nav {
+    order: 3;
+    flex: 0 0 100% !important;
+    display: flex !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-top: 8px;
+    border-top: 1px solid var(--color-border);
+  }
+  .rb-dash-aside--admin .rb-dash-nav {
+    border-top-color: var(--color-admin-border);
+  }
+  .rb-dash-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .rb-dash-link {
+    width: auto !important;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 12px 14px !important;
+    border-left: none !important;
+    border-bottom: 3px solid transparent !important;
+  }
+  .rb-dash-link.is-active {
+    border-bottom-color: var(--color-sage) !important;
+  }
+  .rb-dash-aside--admin .rb-dash-link.is-active {
+    border-bottom-color: #6c8eef !important;
+  }
+  .rb-dash-main {
+    padding: 16px !important;
+  }
+  .rb-calendar {
+    height: 540px !important;
+  }
+  .rb-calendar .rbc-toolbar {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .rb-calendar .rbc-toolbar .rbc-toolbar-label {
+    padding: 4px 0;
+  }
+
+  /* ─── Sąrašų eilutės: būsena, kaina ir veiksmai persikelia į antrą eilutę ─── */
+  .rb-visit-row,
+  .rb-list-row {
+    flex-wrap: wrap !important;
+  }
+  .rb-visit-info,
+  .rb-list-info {
+    min-width: 55%;
+  }
+  .rb-topbar {
+    padding: 12px 16px !important;
+  }
+
+  /* ─── Administratoriaus vizitų lentelė slenkama horizontaliai ─── */
+  .rb-table-scroll {
+    overflow-x: auto !important;
+  }
+  .rb-table-row {
+    min-width: 680px;
+  }
+
+  /* ─── Modalai ir prisijungimo kortelės ─── */
+  .rb-modal-overlay {
+    padding: 12px !important;
+  }
+  .rb-modal {
+    padding: 22px 18px !important;
+    max-height: 92vh !important;
+    border-radius: 20px !important;
+  }
+  .rb-auth-card {
+    padding: 28px 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .rb-week-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .rb-user-meta,
+  .rb-dash-user {
+    display: none !important;
+  }
+  .rb-card {
+    padding: 18px !important;
+  }
+  .rb-hero-stats {
+    gap: 14px 20px !important;
+  }
+  .rb-calendar {
+    height: 470px !important;
+  }
+}

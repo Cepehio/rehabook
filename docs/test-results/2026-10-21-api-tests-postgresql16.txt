@@ -1,0 +1,64 @@
+RehaBook API testai 2026-10-21 | Node v22.22.0 | PostgreSQL 16.15 (localhost:55432, rehabook_test, connection_limit=5)
+Migracijos pritaikytos SQL failais: 20260610181332_init, 20260913000100_booking_integrity, 20261014000100_visit_reminders, 20261014000200_service_active
+
+== cd server && npm test (vitest run, Supertest)
+Migrations applied: 4
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > atkūrimo raktas saugomas maišos forma, panaudojamas vieną kartą ir nutraukia seną sesiją 598ms
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > negaliojantis ir pasibaigęs atkūrimo raktas atmetamas 208ms
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > atkūrimo atsakas neatskleidžia, ar paskyra egzistuoja; sėkmingos užklausos taip pat ribojamos 77ms
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > specialisto slaptažodžiui pakeisti būtinas dabartinis slaptažodis; grąžinama nauja sesija 361ms
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > specialistas gali atkurti slaptažodį; paciento tipas jo rakto nepriima 215ms
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > pašalintos paskyros JWT nebegalioja, viešas katalogas neatskleidžia prisijungimo laukų 180ms
+ ✓ tests/account-integrity.test.js > Paskyrų vientisumas > bcrypt ribą viršijantis Unicode slaptažodis atmetamas, neužkerpant įvesties 3ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > atšaukus vizitą tas pats laikas gali būti rezervuojamas iš naujo 97ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > blokuojamas dalinis persidengimas, gretimas intervalas leidžiamas 89ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > pacientas negali turėti persidengiančių vizitų pas skirtingus specialistus 42ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > kainos, trukmės, būsenos ir medicininių laukų klastojimas atmetamas 39ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > atmetamos neegzistuojančios, praeities datos ir netinkami laikai 30ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > neaktyvus arba pašalintas specialistas negali gauti naujų rezervacijų 30ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > laikų lentelė: užimti laikai visiems, paciento persidengiantys – tik su jo token 301ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > laisvų laikų API atsižvelgia į visą trukmę ir neatiduoda pacientų duomenų 29ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > lygiagrečios to paties intervalo užklausos sukuria vieną vizitą 34ms
+ ✓ tests/booking-integrity.test.js > Rezervacijų vientisumas > neleidžiama iš naujo aktyvuoti įvykusio vizito arba pakeisti būseną į neegzistuojančią 47ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > toDateString grąžina YYYY-MM-DD; tomorrowDateString — rytojų 12ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > išsiunčia priminimus rytojaus vizitams ir pažymi reminderSentAt 352ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > pakartotinis paleidimas tų pačių vizitų nebeprimena (idempotentiška) 162ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > atšauktiems/įvykusiems ir kitų dienų vizitams priminimai nesiunčiami 417ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > neteisinga data atmetama 2ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > netinkama REMINDER_CRON išraiška -> planuoklis nepaleidžiamas 2ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > REMINDERS_ENABLED=false -> planuoklis nepaleidžiamas 0ms
+ ✓ tests/reminders.test.js > Priminimai prieš vizitą > galiojanti išraiška -> užduotis sukuriama ir ją galima sustabdyti 6ms
+ ✓ tests/auth.test.js > Auth — registracija ir prisijungimas > registracija sukuria pacientą su hash`intu slaptažodžiu ir grąžina JWT 163ms
+ ✓ tests/auth.test.js > Auth — registracija ir prisijungimas > prisijungimas su teisingais kredencialais grąžina JWT 129ms
+ ✓ tests/auth.test.js > Auth — registracija ir prisijungimas > neteisingas slaptažodis -> 401 136ms
+ ✓ tests/auth.test.js > Auth — registracija ir prisijungimas > nežinomas el. paštas -> 401 9ms
+ ✓ tests/auth.test.js > Auth — registracija ir prisijungimas > admin prisijungimas su .env kredencialais grąžina admin token`ą 4ms
+ ✓ tests/auth.test.js > Auth — paskyros užrakinimas (5 nesėkmingi bandymai -> 423) > po 5 nesėkmingų bandymų paskyra užrakinama 444ms
+ ✓ tests/auth.test.js > Auth — rate limiting (-> 429) > per daug nesėkmingų auth užklausų grąžina 429 27ms
+ ✓ tests/auto-assign.test.js > Automatinis specialisto priskyrimas pagal darbo krūvį > be specialistId parenkamas laisvas ir mažiausiai apkrautas specialistas 99ms
+ ✓ tests/auto-assign.test.js > Automatinis specialisto priskyrimas pagal darbo krūvį > mažesnį dienos krūvį turintis specialistas gauna naują vizitą 62ms
+ ✓ tests/auto-assign.test.js > Automatinis specialisto priskyrimas pagal darbo krūvį > kai pasirinktu laiku laisvų specialistų nėra -> 409 87ms
+ ✓ tests/auto-assign.test.js > Automatinis specialisto priskyrimas pagal darbo krūvį > laisvų laikų API be specialistId grąžina laikus, kai laisvas bent vienas 75ms
+ ✓ tests/auto-assign.test.js > Automatinis specialisto priskyrimas pagal darbo krūvį > neprieinamas specialistas nekandidatuoja į automatinį priskyrimą 44ms
+ ✓ tests/services.test.js > Paslaugų administravimas > administratorius sukuria paslaugą; ji matoma viešame ir administravimo sąrašuose 22ms
+ ✓ tests/services.test.js > Paslaugų administravimas > pacientas ir neprisijungęs lankytojas paslaugų keisti negali 24ms
+ ✓ tests/services.test.js > Paslaugų administravimas > atmetama netinkama įvestis ir pasikartojantis pavadinimas 57ms
+ ✓ tests/services.test.js > Paslaugų administravimas > redagavus kainą esamas vizitas išsaugo senąją, nauja rezervacija gauna naująją 91ms
+ ✓ tests/services.test.js > Paslaugų administravimas > išjungta paslauga dingsta iš viešo sąrašo, laisvų laikų ir rezervacijų 55ms
+ ✓ tests/services.test.js > Paslaugų administravimas > paslauga su vizitais nešalinama, be vizitų — pašalinama 38ms
+ ✓ tests/static-client.test.js > Surinkta sąsaja > aptarnauja index.html, assets ir SPA kelius, o /api 404 lieka JSON 47ms
+ ✓ tests/static-client.test.js > Surinkta sąsaja > be dist katalogo šakninis kelias grąžina JSON 404 4ms
+ ✓ tests/rbac.test.js > RBAC ir resursų nuosavybė > be token`o -> 401 20ms
+ ✓ tests/rbac.test.js > RBAC ir resursų nuosavybė > pacientas mato tik savo vizitus; svetimas -> 403 257ms
+ ✓ tests/rbac.test.js > RBAC ir resursų nuosavybė > pacientas negali pasiekti admin endpoint`o GET /visits -> 403 151ms
+ ✓ tests/rbac.test.js > RBAC ir resursų nuosavybė > neteisingas token`as -> 401 3ms
+ ✓ tests/visits.test.js > Vizitai > pacientas sukuria vizitą -> 201 58ms
+ ✓ tests/visits.test.js > Vizitai > dvigubas rezervavimas (tas pats specialistas/data/laikas) -> 409 51ms
+ ✓ tests/visits.test.js > Vizitai > pacientas atšaukia savo vizitą su priežastimi 42ms
+ ✓ tests/visits.test.js > Vizitai > atšaukimas be priežasties -> 400 29ms
+ ✓ tests/validation.test.js > Validacija (registracija) > blogas el. pašto formatas -> 400 47ms
+ ✓ tests/validation.test.js > Validacija (registracija) > per trumpas slaptažodis (<8) -> 400 8ms
+ ✓ tests/validation.test.js > Validacija (registracija) > trūkstami privalomi laukai -> 400 6ms
+ ✓ tests/validation.test.js > Validacija (registracija) > blogas el. paštas prisijungiant -> 400 5ms
+ Test Files  10 passed (10)
+      Tests  57 passed (57)
